@@ -1,7 +1,7 @@
 {
-    "name": "jsptpl",
+    "name": "fis3-parser-jsptpl",
     "version": "0.0.1",
-    "description": "So that components can preview",
+    "description": "基于将jsp语法的jsp 模版引擎，转换为js模版模块，适用于可插拔式的小插件开发",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
