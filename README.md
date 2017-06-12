@@ -44,7 +44,7 @@ fis.match('**{**.tpl:scss,**.scss}', {
 ~~~html 
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<tmplate name="ghy22">
+<tmplate name="ghytmp">
     <p>我的名字:${name}，</p>
     <p>性别：<c:if test="${sex=='boy'}">男</c:if></p>
     <p>其他属性：<c:if test="${sex=='boy'&&xianrou&&a2>3}">很帅</c:if></p>
@@ -96,10 +96,12 @@ TPL.addStyle = TPL.addStyle || function (styleContent) {
     document.getElementsByTagName("head")[0].appendChild(styleNode);
 };
 (function (TPL) {
-    TPL.tplmap['ghy22'] = '<p>我的名字:${name}，</p><p>性别：<c:if test="${sex==\'boy\'}">男</c:if></p><p>其他属性：<c:if test="${sex==\'boy\'&&xianrou&&a2>3}">很帅</c:if></p><p>条件判断：<c:if test="${a1>2}">符合条件</c:if></p><p>还有一组朋友</p><ul><c:forEach items="${friends}" var="item"><li>他的名字:${item.name},今年${item.age}岁,<c:forEach items="${item.hobby}" var="hobby">${hobby}</c:forEach></li></c:forEach></ul>'
+    TPL.tplmap['ghytmp'] = '<p>我的名字:${name}，</p><p>性别：<c:if test="${sex==\'boy\'}">男</c:if></p><p>其他属性：<c:if test="${sex==\'boy\'&&xianrou&&a2>3}">很帅</c:if></p><p>条件判断：<c:if test="${a1>2}">符合条件</c:if></p><p>还有一组朋友</p><ul><c:forEach items="${friends}" var="item"><li>他的名字:${item.name},今年${item.age}岁,<c:forEach items="${item.hobby}" var="hobby">${hobby}</c:forEach></li></c:forEach></ul>'
 })(TPL);
    
 //begin insert style
 TPL.addStyle('body{margin:0px;}body p{font-size:12px;}')
 
 ~~~
+
+ TPL.tplmap['ghy22'] 这个是模版字符串，要解析这字符串，就是大家耳熟能详的 ‘模版引擎了’，解析jsp 语法的模版引擎参照上面 所说的 项目和和演示demo
