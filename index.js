@@ -1,42 +1,74 @@
 
 module.exports = function (content, file, settings, opt) {
 
-    var reg = /<tmplate[\s]+name=["|'](.*?)["|']\s*?>([\s\S]*?)<\/tmplate>/gi
     content = replaceImport(content);
     var tmp_header = require("./lib/tmp_header.js")// 输出模版字符串
     var tmp_body = require("./lib/tmp_body.js")// 输出模版字符串
-    var ret_str = content.replace(reg, function (_, _id, str) {
-        var content_str = replaceContent(str);
-        var tmp_str = tmp_body().replace("##TMP_KEY##", _id).replace("##TMP_VALUE##", content_str)
-        return tmp_str;
-    })
+    var compiler = require("./lib/compiler.js")
+
+    var ret_str = "";
+    var outtmp = compiler.parse(content);
+//    处理html 模版
+    for (var i in outtmp.template) {
+        var tmp = outtmp.template[i];
+        ret_str += tmp_body().replace("##TMP_KEY##", tmp._id).replace("##TMP_VALUE##", tmp.content)
+    }
+//    处理 style 样式
+
+    // style
+    outtmp.style.forEach(function (item, index) {
+        if (!item.content) {
+            return;
+        }
+
+        // empty string, or all space line
+        if (/^\s*$/.test(item.content)) {
+            return;
+        }
+//        console.log("开始编译", item.content)
+        // css也采用片段编译，更好的支持less、sass等其他语言
+        var styleContent = fis.compile.partial(item.content, file, {
+            ext: item.lang || 'scss',
+            isCssLike: true
+        });
+
+        styleContent = compiler.miniStyle(styleContent);
+//         console.log("ghy:", styleContent);
+        ret_str = ret_str + "\n//begin insert style";
+        ret_str = ret_str + "\nTPL.addStyle('" + styleContent + "')";
+        return;
+
+//默认内联 这一版 不执行以下代码
+        var styleFileName, styleFile;
+//
+        if (outtmp.style.length == 1) {
+            styleFileName = file.realpathNoExt + '.scss';
+        } else {
+            styleFileName = file.realpathNoExt + '-' + index + '.scss';
+        }
+//
+        styleFile = fis.file.wrap(styleFileName);
+//
+        styleFile.cache = file.cache;
+        styleFile.isCssLike = true;
+        styleFile.setContent(styleContent);
+
+        fis.compile.process(styleFile);
+
+//        console.log("links" + styleFile.links, styleFile.getId())
+        //        
+        styleFile.links.forEach(function (derived) {
+            file.addLink(derived);
+        });
+        file.derived.push(styleFile);
+        file.addRequire(styleFile.getId());
+    });
+
     ret_str = tmp_header() + ret_str;
     return ret_str;
 }
 function replaceImport(str) {
     var reg1 = /<%@.*?%>/gi;// jsp 标签引用
     str = str.replace(reg1, "");
-    return str;
-}
-function replaceContent(str) {
-    if (str == null) {
-        return str;
-    }
-    var reg2 = />([\s]*?)</gi;// 标签之间的空格
-    var reg3 = />([\s]+)/gi;// > 之后的空格
-    var reg4 = /([\s]+)</gi;// < 之前
-    str = str.replace(/\r\n|\n|\r/g, "\v").
-            replace(reg2, function (content, _) {
-                return "><"
-            }).
-            replace(reg3, function (content, _) {
-                return ">"
-            }).
-            replace(reg4, function (content, _) {
-                return "<"
-            }).
-            replace(/'/gi, function (content, _) {
-                return "\\'"
-            })
     return str;
 }
