@@ -25,7 +25,7 @@ module.exports = function (content, file, settings, opt) {
         if (/^\s*$/.test(item.content)) {
             return;
         }
-//        console.log("开始编译", item.content)
+        // console.log("开始编译", item.content)
         // css也采用片段编译，更好的支持less、sass等其他语言
         var styleContent = fis.compile.partial(item.content, file, {
             ext: item.lang || 'scss',
