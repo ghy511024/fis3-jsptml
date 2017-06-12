@@ -27,4 +27,4 @@ fis.match('**{**.tpl:scss,**.scss}', {
 
 ~~~
 
-详细教程 (nln.me/page/jsptpl/demo.html)[nln.me/page/jsptpl/demo.html]
+详细教程 [nln.me/page/jsptpl/demo.html](nln.me/page/jsptpl/demo.html)
