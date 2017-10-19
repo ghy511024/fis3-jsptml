@@ -11,6 +11,7 @@ module.exports = function (content, file, settings, opt) {
 //    处理html 模版
     for (var i in outtmp.template) {
         var tmp = outtmp.template[i];
+        console.log("sdfsdf")
         if (tmp.fout) {
             ret_str = ret_str + "\n//begin insert static dom";
             ret_str = ret_str + "\nTPL.addNode('" + tmp.content + "')";
