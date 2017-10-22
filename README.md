@@ -11,14 +11,14 @@ git地址 [https://github.com/ghy511024/fis3-jsptpl](https://github.com/ghy51102
 
 此插件为fis3后端编译插件，只做将模版和样式转换为js 函数，模版语法本身的解析需要参照另外一个项目 [https://github.com/ghy511024/jsptpl](https://github.com/ghy511024/jsptpl)
 
-更详细详细教程demo [nln.me/page/jsptpl/demo.html](nln.me/page/jsptpl/demo.html)
+更详细详细教程demo [http://nln.me/page/tpl/fis3-jsptpl.html](http://nln.me/page/tpl/fis3-jsptpl.html)
 
 ## 使用方法
 - 安装
 
 ~~~js 
 
-npm install fis3-parser-jsptpl -g
+npm install fis3-parser-jsptpl --save
 
 ~~~
 
@@ -33,7 +33,9 @@ fis.match("*/tpl/(*).tpl", {
 // 启用模版内，内联联scss 编译
 fis.match('**{**.tpl:scss,**.scss}', {
     rExt: 'css',
-    parser: [fis.plugin('node-sass')],
+    // 官方推荐 node-sass ，node7 以上不好使，所以自己封装了一个
+    // https://github.com/ghy511024/fis3-parser-nodev8-scss
+    parser: [fis.plugin('nodev8-scss')],
     postprocessor: fis.plugin('autoprefixer'),
 });
 
