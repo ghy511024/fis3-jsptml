@@ -18,8 +18,8 @@ var root = fis.project.getProjectPath();
 
 
 fis.match("**.tpl", {
-    // parser: [parserTpl],
-    parser: "jsptpl",// npm install fis3-parser-jsptpl --save
+    parser: [parserTpl],
+    // parser: "jsptpl",// npm install fis3-parser-jsptpl --save
     rExt: '.js',
 })
 
