@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jsptpl demo</title>
+</head>
+<body>
+<div id="main">
+
+</div>
+<p>
+    需要解决的问题
+</p>
+<p>
+    1:组件化（css,html,js 如何最后生成一个组件js,当然最好像再一个vue单文件中开发）
+
+</p>
+<p>
+    2:组件协议 以怎样的形式提供给用户用
+</p>
+<p>
+    3:最轻量级，尽可能的不依赖任何其他框架，如果项目本身就其他框架中开发例外
+</p>
+<p>
+    前三个问题，是前端开发组件通用的问题。
+    4:组件自身设计问题，业务本身，这个随便怎么设计了。
+</p>
+<!--jsp 模板引擎-->
+<script src="http://jsptpl.nln.me/dist/jsptpl.js"></script>
+<!--组件js-->
+<script src="../dist/demo.js"></script>
+
+<script>
+    var data = {title: "各组待处理工单", list: [18, 8, 258, 86, 30, 25]}
+    var el = document.getElementById("main");
+    var cd = new gdCard(el, data);
+</script>
+</body>
+</html>
