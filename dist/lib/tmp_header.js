@@ -6,7 +6,7 @@ TPL.tplmap = TPL.tplmap || {};
 TPL.getTpl = TPL.getTpl || function (_id) {
     return this.tplmap[_id];
 };
-TPL.addNode=TPL.addNode||function(){
+TPL.addNode=TPL.addNode||function(html){
      var divTemp = document.createElement("div"), nodes = null ,
               fragment = document.createDocumentFragment(); 
       divTemp.innerHTML = html;
