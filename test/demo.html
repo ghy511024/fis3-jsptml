@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jsptpl demo</title>
+</head>
+<body>
+<div id="main">
+
+</div>
+<p>
+    <a href="https://github.com/ghy511024/fis3-jsptpl/tree/master/test">demo 源代码查看</a>
+</p>
+<!--jsp 模板引擎-->
+<script src="http://jsptpl.nln.me/dist/jsptpl.js"></script>
+<!--组件js-->
+<script src="../dist/demo.js"></script>
+
+<script>
+    var data = {title: "各组待处理工单", list: [18, 8, 258, 86, 30, 25]}
+    var el = document.getElementById("main");
+    var cd = new gdCard(el, data);
+</script>
+</body>
+</html>

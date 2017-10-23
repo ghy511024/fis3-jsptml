@@ -1,6 +1,4 @@
-
 module.exports = function (content, file, settings, opt) {
-
     content = replaceImport(content.toString());
     var tmp_header = require("./lib/tmp_header.js")// 输出模版字符串
     var tmp_body = require("./lib/tmp_body.js")// 输出模版字符串
@@ -11,11 +9,17 @@ module.exports = function (content, file, settings, opt) {
 //    处理html 模版
     for (var i in outtmp.template) {
         var tmp = outtmp.template[i];
+        if (tmp._id == null) {
+            var filename = file.filename;
+            if (i > 0) {
+                filename = filename + i;
+            }
+            tmp._id = filename;
+        }
+        ret_str += tmp_body().replace("##TMP_KEY##", tmp._id).replace("##TMP_VALUE##", tmp.content)
         if (tmp.fout) {
             ret_str = ret_str + "\n//begin insert static dom";
-            ret_str = ret_str + "\nTPL.addNode('" + tmp.content + "')";
-        } else {
-            ret_str += tmp_body().replace("##TMP_KEY##", tmp._id).replace("##TMP_VALUE##", tmp.content)
+            ret_str = ret_str + "\nTPL.addNode(TPL.getTpl('" + tmp._id + "'));";
         }
     }
 
@@ -72,9 +76,9 @@ module.exports = function (content, file, settings, opt) {
     ret_str = tmp_header() + ret_str;
     return ret_str;
 }
+
 function replaceImport(str) {
     var reg1 = /<%@.*?%>/gi;// jsp 标签引用
-
     str = (str || "").replace(reg1, "");
     return str;
 }
